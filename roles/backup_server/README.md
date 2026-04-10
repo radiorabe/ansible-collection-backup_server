@@ -32,7 +32,7 @@ None
 ```yaml
 - hosts: all
   roles:
-    - certbot
+    - backup_server
       vars:
         - backup_server_config_files:
             - name: appliances.sh
