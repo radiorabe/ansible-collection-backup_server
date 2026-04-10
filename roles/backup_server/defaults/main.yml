@@ -1,0 +1,15 @@
+---
+# defaults file for backup_server
+backup_server_bindir: /usr/local/bin
+backup_server_btrbk_config_dir: /etc/btrbk
+backup_server_btrbk_url: https://raw.githubusercontent.com/digint/btrbk/v0.32.6/btrbk
+backup_server_config_dir: /etc/rabe-backup
+backup_server_repo_dest: /opt/backup
+backup_server_repo_tag: 0.2.0
+backup_server_repo_url: https://github.com/radiorabe/backup.git
+backup_server_sbindir: /usr/local/sbin
+backup_server_systemd_dir: /usr/local/lib/systemd/system
+backup_server_trust_anchor_dir: /etc/pki/ca-trust/source/anchors
+# not set
+# backup_server_config_files
+# backup_server_ovirt_ca_content

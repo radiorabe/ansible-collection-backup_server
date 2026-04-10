@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: RaBe IT-Reaktion
+  description: Install RaBe backup, configures it and enables it
+  issue_tracker_url: https://github.com/radiorabe/ansible-collection-backup_server/issues
+  license: AGPL-3.0-only
+  min_ansible_version: "2.14"
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      version:
+        - all
+  galaxy_tags:
+    - radiorabe
+    - foreman
+    - backup
+    - rsync
+dependencies: []
+become: true

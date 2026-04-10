@@ -1,0 +1,5 @@
+---
+- name: Run backup_server role
+  hosts: localhost
+  roles:
+    - role: backup_server

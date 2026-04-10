@@ -1,0 +1,6 @@
+---
+- name: Test backup_server role
+  hosts: localhost
+  remote_user: root
+  roles:
+    - backup_server

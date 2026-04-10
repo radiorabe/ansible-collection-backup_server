@@ -1,0 +1,95 @@
+---
+# tasks file for backup_server
+- name: Install dependencies
+  ansible.builtin.package:
+    name:
+      - btrfs-progs
+      - git
+      - rsync
+    state: present
+
+- name: Install btrbk
+  ansible.builtin.get_url:
+    url: "{{ backup_server_btrbk_url }}"
+    dest: "{{ backup_server_sbindir }}/"
+    mode: "0755"
+
+- name: Clone backup repository
+  ansible.builtin.git:
+    repo: "{{ backup_server_repo_url }}"
+    dest: "{{ backup_server_repo_dest }}"
+    version: "{{ backup_server_repo_tag }}"
+
+- name: Create application directory
+  ansible.builtin.file:
+    path: "{{ backup_server_bindir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy application files
+  ansible.builtin.copy:
+    src: "{{ backup_server_repo_dest }}/{{ item }}"
+    dest: "{{ backup_server_bindir }}/{{ item }}"
+    mode: "0755"
+    remote_src: true
+  loop:
+    - logging.lib
+    - backup-appliances.sh
+    - backup-fs-vms.sh
+    - backup-physical-servers.sh
+    - backup-util.sh
+    - backup-all.sh
+
+# Config
+- name: Create config directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ backup_server_config_dir }}"
+    - "{{ backup_server_btrbk_config_dir }}"
+    - "{{ backup_server_systemd_dir }}"
+
+- name: Copy config files
+  when: backup_server_config_files is defined
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ backup_server_config_dir }}/{{ item.name }}"
+    mode: "0644"
+  loop: "{{ backup_server_config_files }}"
+
+- name: Copy oVirt CA certificate
+  when: backup_server_ovirt_ca_content is defined
+  ansible.builtin.copy:
+    content: "{{ backup_server_ovirt_ca_content }}"
+    dest: "{{ backup_server_trust_anchor_dir }}/ovirt-ca.pem"
+    mode: "0644"
+  notify: Update CA trust
+
+- name: Copy btrbk config file
+  ansible.builtin.copy:
+    src: "{{ backup_server_repo_dest }}/config/btrbk.conf"
+    dest: "{{ backup_server_btrbk_config_dir }}/btrbk.conf"
+    mode: "0644"
+    remote_src: true
+
+- name: Copy systemd units
+  ansible.builtin.copy:
+    src: "{{ backup_server_repo_dest }}/config/{{ item }}"
+    dest: "/usr/local/lib/systemd/system/{{ item }}"
+    mode: "0644"
+    remote_src: true
+  loop:
+    - rabe-backup.service
+    - rabe-backup.timer
+  notify: Reload systemd
+
+- name: Flush handlers so systemd is reloaded
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable systemd timer
+  ansible.builtin.systemd_service:
+    name: rabe-backup.timer
+    state: started
+    enabled: true

@@ -1,0 +1,17 @@
+---
+namespace: radiorabe
+name: backup_server
+version: 0.0.0
+readme: README.md
+authors:
+  - Jonas <@spameier>
+description: Ansible collection that installs the RaBe backup server component.
+license_file: LICENSE
+tags:
+  - application
+  - radiorabe
+  - backup
+repository: https://github.com/radiorabe/ansible-collection-backup_server
+documentation: https://github.com/radiorabe/ansible-collection-backup_server/blob/main/README.md
+homepage: https://github.com/radiorabe/ansible-collection-backup_server
+issues: https://github.com/radiorabe/ansible-collection-backup_server/issues
