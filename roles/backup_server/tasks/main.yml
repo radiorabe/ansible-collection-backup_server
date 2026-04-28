@@ -41,6 +41,22 @@
     - backup-all.sh
 
 # Config
+- name: Create variable data dir
+  ansible.builtin.file:
+    path: /var/lib/backup/
+    state: directory
+    mode: "0700"
+
+- name: Generate SSH private key
+  community.crypto.openssh_keypair:
+    path: /var/lib/backup/id_rsa
+    size: 4096
+  register: backup_server_public_key
+
+- name: Print SSH public key
+  ansible.builtin.debug:
+    msg: "{{ backup_server_public_key['public_key'] }}"
+
 - name: Create config directories
   ansible.builtin.file:
     path: "{{ item }}"
