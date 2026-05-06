@@ -5,7 +5,7 @@ backup_server_btrbk_config_dir: /etc/btrbk
 backup_server_btrbk_url: https://raw.githubusercontent.com/digint/btrbk/v0.32.6/btrbk
 backup_server_config_dir: /etc/rabe-backup
 backup_server_repo_dest: /opt/backup
-backup_server_repo_tag: 0.2.1
+backup_server_repo_tag: 0.2.2
 backup_server_repo_url: https://github.com/radiorabe/backup.git
 backup_server_sbindir: /usr/local/sbin
 backup_server_systemd_dir: /usr/local/lib/systemd/system
