@@ -6,6 +6,7 @@
       - btrfs-progs
       - git
       - rsync
+      - zabbix-sender
     state: present
 
 - name: Install btrbk
