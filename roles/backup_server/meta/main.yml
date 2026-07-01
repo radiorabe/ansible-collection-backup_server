@@ -17,5 +17,6 @@ galaxy_info:
     - foreman
     - backup
     - rsync
-dependencies: []
+dependencies:
+  - community.crypto.openssh_keypair
 become: true
